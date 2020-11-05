@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="117675ac-f980-4f41-acf2-6d091f397fd2" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1jPyY5qCV2BAtE7EIUw8IJl84Gg" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor.code.editing" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/slider/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.index.html" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="117675ac-f980-4f41-acf2-6d091f397fd2" name="Default Changelist" comment="" />
+      <created>1603720065984</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1603720065984</updated>
+      <workItem from="1603720067062" duration="3947000" />
+      <workItem from="1603802651684" duration="7000" />
+      <workItem from="1603802689522" duration="240000" />
+      <workItem from="1603803985069" duration="8000" />
+      <workItem from="1603804110510" duration="368000" />
+      <workItem from="1603804647362" duration="43000" />
+      <workItem from="1603804739846" duration="137000" />
+      <workItem from="1603804918263" duration="28000" />
+      <workItem from="1603804952534" duration="23000" />
+      <workItem from="1603805333214" duration="1204000" />
+      <workItem from="1603806644783" duration="25000" />
+      <workItem from="1603806703340" duration="57000" />
+      <workItem from="1603806771767" duration="2841000" />
+      <workItem from="1604394548285" duration="8000" />
+      <workItem from="1604395222853" duration="271000" />
+      <workItem from="1604395502809" duration="84000" />
+      <workItem from="1604395599751" duration="156000" />
+      <workItem from="1604395763365" duration="48000" />
+      <workItem from="1604395818065" duration="40000" />
+      <workItem from="1604395871574" duration="9847000" />
+      <workItem from="1604472524233" duration="13824000" />
+      <workItem from="1604568704192" duration="9325000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1604497127528">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1604497127528" />
+    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1604497127528">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1604497127528" />
+    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1604497127528">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1604497127528" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1604497127528">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604497127528" />
+    <state x="397" y="302" key="SettingsEditor" timestamp="1604396118763">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="397" y="302" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1604396118763" />
+    <state x="616" y="240" key="run.anything.popup" timestamp="1604483299527">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1604483299527" />
+  </component>
+</project>
