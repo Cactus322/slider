@@ -49,7 +49,7 @@
                     //Расчитаем значение равное шагу слайдера
                     let result = (((stepLeft / stepPercent) * config.stepSize).toFixed());
                     result = + result;
-                    let values = result + + config.min;
+                    let values = result + config.min;
                     console.log(typeof result)
                     $('p.result').html(values);
                 })
@@ -82,28 +82,27 @@
             sliderSpan.on('mousedown', function (event) {
                 let sliderCoords = getCoords(slider);
                 let sliderSpanCoords = getCoords(sliderSpan);
-                let shift = event.pageY - sliderSpanCoords.top;
+                let shift = event.pageY - sliderSpanCoords.bottom;
 
 
                 //Начнем движение ползунка
                 $(document).on('mousemove', function (event) {
-                    let top = ((event.pageY - shift - sliderCoords.top) / sliderCoords.height) * 100;
-                    if (top < 0) top = 0;
-                    if (top > 100) top = 100;
-                    sliderSpan.css({'top': top + '%'});
+                    let bottom = ((event.pageY - shift - sliderCoords.bottom) / sliderCoords.height) * 100;
+                    if (bottom < 0) bottom = 0;
+                    if (bottom > 100) bottom = 100;
 
                     //Шаг слайдера
                     let stepCount = (config.max - config.min) / config.stepSize;
                     let stepPercent = 100 / stepCount;
-                    let stepTop = Math.round(top / stepPercent) * stepPercent;
-                    if (stepTop < 0) stepTop = 0;
-                    if (stepTop > 100) stepTop = 100;
-                    sliderSpan.css({'top': stepTop + '%'});
+                    let stepBottom = Math.round(bottom / stepPercent) * stepPercent;
+                    if (stepBottom < 0) stepBottom = 0;
+                    if (stepBottom > 100) stepBottom = 100;
+                    sliderSpan.css({'bottom': stepBottom + '%'});
 
                     //Расчитаем значение равное шагу слайдера
-                    let result = (((stepTop / stepPercent) * config.stepSize).toFixed());
+                    let result = (((stepBottom / stepPercent) * config.stepSize).toFixed());
                     result = + result;
-                    let values = result + + config.min;
+                    let values = result + config.min;
                     console.log(typeof result)
                     $('p.result').html(values);
                 })
@@ -122,8 +121,8 @@
                 let boxBottom = boxTop + elem.outerHeight();
 
                 return {
-                    top: boxTop + pageYOffset,
-                    height: boxBottom - boxTop,
+                    bottom: boxBottom + pageYOffset,
+                    height: boxTop - boxBottom,
                 };
             }
         }

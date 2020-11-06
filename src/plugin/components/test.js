@@ -1,6 +1,6 @@
 $('#mySlider').mySlider({
     min: 20,
     max: 200,
-    position: 'horizontal',
-    stepSize: 50
+    position: 'vertical',
+    stepSize: 10,
 });

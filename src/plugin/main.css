@@ -36,7 +36,8 @@
     height: 20px;
     background-color: rgb(246, 246, 246);
     border: 1px solid #c5c5c5;
-    margin-top: -8px;
+    bottom: 0%;
+    margin-bottom: -10px;
     border-radius: 3px;
     margin-left: -3px;
 }
