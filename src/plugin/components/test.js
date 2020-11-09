@@ -1,6 +1,6 @@
-$('#mySlider').mySlider({
+new mySlider({
     min: 20,
     max: 200,
-    position: 'vertical',
+    position: 'horizontal',
     stepSize: 10,
-});
+})
