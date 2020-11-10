@@ -14,45 +14,60 @@
         this.slider();
     }
 
-
+    let nextId = 0; //колличество слайдеров, начиная с нулевого
 
     //Слайдер
     mySlider.prototype.slider = function () {
         let options = this.options;
         //Разметка слайдера
+        let containerSlider = document.createElement('div');
         let divResult = document.createElement('div');
         let pResult = document.createElement('p');
         let divSlider = document.createElement('div');
         let span = document.createElement('span');
 
+        if (document.getElementById('containerSliderHor-' + nextId)) {
+            nextId++;
+        }
+
+        //Ошибка, если ID не найден
+        if (options.id === undefined) {
+            console.log('Error: Enter ID')
+        }
+
+        document.getElementById(options.id).appendChild(containerSlider);
+        containerSlider.id = 'containerSliderHor-' + nextId;
+        document.getElementById(containerSlider.id).appendChild(divResult);
+        divResult.id = 'sliderResult-' + nextId;
+
         if (options.position === 'horizontal') {
-            document.body.appendChild(divResult);
-            divResult.id = 'sliderResult';
-
             document.getElementById(divResult.id).appendChild(pResult);
+            pResult.id = 'result-' + nextId;
             pResult.className = 'result';
             pResult.innerHTML = options.min;
 
-            document.body.appendChild(divSlider);
-            divSlider.id = 'sliderHor';
+            document.getElementById(containerSlider.id).appendChild(divSlider);
+            divSlider.id = 'sliderHor-' + nextId;
+            divSlider.className = 'slider-hor';
 
             document.getElementById(divSlider.id).appendChild(span);
-            span.id = 'slider-span';
+            span.id = 'sliderSpan-' + nextId;
             span.className = 'ui-slider-hor';
-        } else if (options.position === 'vertical') {
-            document.body.appendChild(divResult);
-            divResult.id = 'sliderResult';
 
+        } else if (options.position === 'vertical') {
             document.getElementById(divResult.id).appendChild(pResult);
+            pResult.id = 'result-' + nextId;
             pResult.className = 'result';
             pResult.innerHTML = options.min;
 
-            document.body.appendChild(divSlider);
-            divSlider.id = 'sliderVert';
+            document.getElementById(containerSlider.id).appendChild(divSlider);
+            divSlider.id = 'sliderVert-' + nextId;
+            divSlider.className = 'slider-vert';
 
             document.getElementById(divSlider.id).appendChild(span);
-            span.id = 'slider-span';
+            span.id = 'sliderSpan-' + nextId;
             span.className = 'ui-slider-vert';
+
         } else {
             console.log('Error: unexpected slider "position"')
         }
@@ -70,8 +85,7 @@
 
                 //Начнем движение ползунка
                 document.onmousemove = function(event) {
-                    let left =
-                        ((event.pageX - shift - sliderCoords.left) / sliderCoords.width) * 100;
+                    let left = ((event.pageX - shift - sliderCoords.left) / sliderCoords.width) * 100;
                     if (left < 0) left = 0;
                     if (left > 100) left = 100;
                     sliderSpan.style.left = left + "%";
@@ -88,7 +102,8 @@
                     let result = (((stepLeft / stepPercent) * options.stepSize).toFixed());
                     result = + result;
                     let values = result + options.min;
-                    document.getElementsByClassName(pResult.className)[0].innerHTML = values;
+
+                    document.getElementById(pResult.id).innerHTML = values;
                 };
 
             } else if (options.position === 'vertical') {
@@ -96,8 +111,7 @@
 
                 //Начнем движение ползунка
                 document.onmousemove = function (event) {
-                    let bottom =
-                        ((event.pageY - shift - sliderCoords.bottom) / sliderCoords.height) * 100;
+                    let bottom = ((event.pageY - shift - sliderCoords.bottom) / sliderCoords.height) * 100;
                     if (bottom < 0) bottom = 0;
                     if (bottom > 100) bottom = 100;
                     sliderSpan.style.bottom = bottom + "%";
@@ -114,7 +128,8 @@
                     let result = (((stepBottom / stepPercent) * options.stepSize).toFixed());
                     result = +result;
                     let values = result + options.min;
-                    document.getElementsByClassName(pResult.className)[0].innerHTML = values;
+
+                    document.getElementById(pResult.id).innerHTML = values;
                 };
             }
 

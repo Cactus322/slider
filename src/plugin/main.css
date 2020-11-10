@@ -1,4 +1,4 @@
-#sliderHor {
+.slider-hor {
     position: relative;
     height: 15px;
     width: 400px;
@@ -22,7 +22,7 @@
     background-color: rgb(237, 237, 237);
 }
 
-#sliderVert {
+.slider-vert {
     position: relative;
     width: 15px;
     height: 400px;
