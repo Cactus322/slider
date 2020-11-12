@@ -5,6 +5,7 @@
             max: 150,
             position: 'horizontal', //or vertical
             stepSize: 1,
+            valueFromAbove: false,
         }
 
         if (arguments[0] && typeof arguments[0] === "object") {
@@ -25,6 +26,7 @@
         let pResult = document.createElement('p');
         let divSlider = document.createElement('div');
         let span = document.createElement('span');
+        let spanValue = document.createElement('span');
 
         if (document.getElementById('containerSliderHor-' + nextId)) {
             nextId++;
@@ -54,6 +56,12 @@
             span.id = 'sliderSpan-' + nextId;
             span.className = 'ui-slider-hor';
 
+            if (options.valueFromAbove === true) {
+                document.getElementById(span.id).before(spanValue);
+                spanValue.id = 'spanValue-' + nextId;
+                spanValue.className = 'span-value-hor';
+            }
+
         } else if (options.position === 'vertical') {
             document.getElementById(divResult.id).appendChild(pResult);
             pResult.id = 'result-' + nextId;
@@ -65,8 +73,14 @@
             divSlider.className = 'slider-vert';
 
             document.getElementById(divSlider.id).appendChild(span);
-            span.id = 'sliderSpan-' + nextId;
+            span.id = 'sliderSpan';
             span.className = 'ui-slider-vert';
+
+            if (options.valueFromAbove === true) {
+                document.getElementById(span.id).before(spanValue);
+                spanValue.id = 'spanValue-' + nextId;
+                spanValue.className = 'span-value-vert';
+            }
 
         } else {
             console.log('Error: unexpected slider "position"')
@@ -88,7 +102,6 @@
                     let left = ((event.pageX - shift - sliderCoords.left) / sliderCoords.width) * 100;
                     if (left < 0) left = 0;
                     if (left > 100) left = 100;
-                    sliderSpan.style.left = left + "%";
 
                     //Шаг слайдера
                     let stepCount = (options.max - options.min) / options.stepSize;
@@ -97,6 +110,12 @@
                     if (stepLeft < 0) stepLeft = 0;
                     if (stepLeft > 100) stepLeft = 100;
                     sliderSpan.style.left = stepLeft + '%';
+                    document.getElementById(spanValue.id).style.left = stepLeft + '%';
+
+                    //Покажем значение слайдера над ним
+                    if (options.valueFromAbove === true) {
+                        document.getElementById(spanValue.id).style.visibility = 'visible';
+                    }
 
                     //Расчитаем значение равное шагу слайдера
                     let result = (((stepLeft / stepPercent) * options.stepSize).toFixed());
@@ -104,6 +123,7 @@
                     let values = result + options.min;
 
                     document.getElementById(pResult.id).innerHTML = values;
+                    document.getElementById(spanValue.id).innerHTML = values;
                 };
 
             } else if (options.position === 'vertical') {
@@ -114,7 +134,6 @@
                     let bottom = ((event.pageY - shift - sliderCoords.bottom) / sliderCoords.height) * 100;
                     if (bottom < 0) bottom = 0;
                     if (bottom > 100) bottom = 100;
-                    sliderSpan.style.bottom = bottom + "%";
 
                     //Шаг слайдера
                     let stepCount = (options.max - options.min) / options.stepSize;
@@ -123,6 +142,12 @@
                     if (stepBottom < 0) stepBottom = 0;
                     if (stepBottom > 100) stepBottom = 100;
                     sliderSpan.style.bottom = stepBottom + '%';
+                    document.getElementById(spanValue.id).style.bottom = stepBottom + '%';
+
+                    //Покажем значение слайдера над ним
+                    if (options.valueFromAbove === true) {
+                        document.getElementById(spanValue.id).style.visibility = 'visible';
+                    }
 
                     //Расчитаем значение равное шагу слайдера
                     let result = (((stepBottom / stepPercent) * options.stepSize).toFixed());
@@ -130,11 +155,18 @@
                     let values = result + options.min;
 
                     document.getElementById(pResult.id).innerHTML = values;
+                    document.getElementById(spanValue.id).innerHTML = values;
                 };
             }
 
+            //Остановим движение слайдера
             document.onmouseup = function() {
                 document.onmousemove = document.onmouseup = null;
+
+                //Уберем значение слайдера
+                if (options.valueFromAbove === true) {
+                    document.getElementById(spanValue.id).style.visibility = 'hidden';
+                }
             };
             return false;
         };

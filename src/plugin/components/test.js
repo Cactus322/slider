@@ -4,6 +4,8 @@ new mySlider({
     max: 200,
     position: 'horizontal',
     id: 'raz',
+    valueFromAbove: true,
+    stepSize: 1,
 })
 
 new mySlider({
@@ -12,6 +14,7 @@ new mySlider({
     position: 'vertical',
     stepSize: 10,
     id: 'dva',
+    valueFromAbove: true,
 })
 
 
