@@ -15,11 +15,15 @@
     left: 0%;
     top: -4.5px;
     border-radius: 3px;
-    margin-left: -10px;
+    /*margin-left: -10px;*/
 }
 
 .ui-slider-hor:hover {
     background-color: rgb(237, 237, 237);
+}
+
+.ui-slider-hor.range {
+    left: 100%;
 }
 
 .slider-vert {
