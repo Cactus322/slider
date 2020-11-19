@@ -1,4 +1,3 @@
-document.getElementById('her')
 new mySlider({
     min: 20,
     max: 200,
@@ -16,6 +15,7 @@ new mySlider({
     stepSize: 10,
     id: 'dva',
     valueFromAbove: true,
+    range: true,
 })
 
 

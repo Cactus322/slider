@@ -26,8 +26,8 @@
             //Разметка слайдера
         let containerSlider = document.createElement('div');
         let divResult = document.createElement('div');
-        let pResult = document.createElement('input');
-        let pResultRange = document.createElement('input');
+        let inputResult = document.createElement('input');
+        let inputResultRange = document.createElement('input');
         let divSlider = document.createElement('div');
         let span = document.createElement('span');
         let spanRange = document.createElement('span');
@@ -48,10 +48,10 @@
         divResult.id = 'sliderResult-' + nextId;
 
         if (options.position === 'horizontal') {
-            document.getElementById(divResult.id).appendChild(pResult);
-            pResult.id = 'result-' + nextId;
-            pResult.className = 'result';
-            pResult.value = options.min;
+            document.getElementById(divResult.id).appendChild(inputResult);
+            inputResult.id = 'result-' + nextId;
+            inputResult.className = 'result';
+            inputResult.value = options.min;
 
             document.getElementById(containerSlider.id).appendChild(divSlider);
             divSlider.id = 'sliderHor-' + nextId;
@@ -62,10 +62,10 @@
             span.className = 'ui-slider-hor';
 
             if (options.range === true) {
-                document.getElementById(divResult.id).appendChild(pResultRange);
-                pResultRange.id = 'resultRange-' + nextId;
-                pResultRange.className = 'result-range';
-                pResultRange.value = options.max;
+                document.getElementById(divResult.id).appendChild(inputResultRange);
+                inputResultRange.id = 'resultRange-' + nextId;
+                inputResultRange.className = 'result-range';
+                inputResultRange.value = options.max;
 
                 document.getElementById(divSlider.id).appendChild(spanRange);
                 spanRange.id = 'sliderSpanRange-' + nextId;
@@ -79,10 +79,10 @@
             }
 
         } else if (options.position === 'vertical') {
-            document.getElementById(divResult.id).appendChild(pResult);
-            pResult.id = 'result-' + nextId;
-            pResult.className = 'result';
-            pResult.value = options.min;
+            document.getElementById(divResult.id).appendChild(inputResult);
+            inputResult.id = 'result-' + nextId;
+            inputResult.className = 'result';
+            inputResult.value = options.min;
 
             document.getElementById(containerSlider.id).appendChild(divSlider);
             divSlider.id = 'sliderVert-' + nextId;
@@ -91,6 +91,17 @@
             document.getElementById(divSlider.id).appendChild(span);
             span.id = 'sliderSpan';
             span.className = 'ui-slider-vert';
+
+            if (options.range === true) {
+                document.getElementById(divResult.id).appendChild(inputResultRange);
+                inputResultRange.id = 'resultRange-' + nextId;
+                inputResultRange.className = 'result-range';
+                inputResultRange.value = options.max;
+
+                document.getElementById(divSlider.id).appendChild(spanRange);
+                spanRange.id = 'sliderSpanRange-' + nextId;
+                spanRange.className = 'ui-slider-vert range';
+            }
 
             if (options.valueFromAbove === true) {
                 document.getElementById(span.id).before(spanValue);
@@ -129,9 +140,6 @@
                     sliderSpan.style.left = stepLeft + '%';
                     document.getElementById(spanValue.id).style.left = stepLeft + '%';
 
-                    if (first >= second) {
-                        console.log('123')
-                    }
 
                     //Покажем значение слайдера над ним
                     if (options.valueFromAbove === true) {
@@ -142,9 +150,18 @@
                     let result = (((stepLeft / stepPercent) * options.stepSize).toFixed());
                     result = + result;
                     let values = result + options.min;
-
                     first = values;
-                    document.getElementById(pResult.id).value = values;
+
+                    if (first >= second) {
+                        let stepPercent = 100 / (options.max - options.min);
+                        let rangeValue = (second - options.min) * stepPercent;
+                        sliderSpan.style.left = rangeValue + '%';
+                        document.getElementById(spanValue.id).style.left = rangeValue + '%';
+                        values = second
+                        first = values;
+                    }
+
+                    document.getElementById(inputResult.id).value = values;
                     document.getElementById(spanValue.id).innerHTML = values;
                 };
 
@@ -175,8 +192,18 @@
                     let result = (((stepBottom / stepPercent) * options.stepSize).toFixed());
                     result = +result;
                     let values = result + options.min;
+                    first = values;
 
-                    document.getElementById(pResult.id).value = values;
+                    if (first >= second) {
+                        let stepPercent = 100 / (options.max - options.min);
+                        let rangeValue = (second - options.min) * stepPercent;
+                        sliderSpan.style.bottom = rangeValue + '%';
+                        document.getElementById(spanValue.id).style.bottom = rangeValue + '%';
+                        values = second
+                        first = values;
+                    }
+
+                    document.getElementById(inputResult.id).value = values;
                     document.getElementById(spanValue.id).innerHTML = values;
                 };
             }
@@ -227,9 +254,18 @@
                         let result = (((stepLeft / stepPercent) * options.stepSize).toFixed());
                         result = + result;
                         let values = result + options.min;
-
                         second = values;
-                        document.getElementById(pResultRange.id).value = values;
+
+                        if (second <= first) {
+                            let stepPercent = 100 / (options.max - options.min);
+                            let rangeValue = (first - options.min) * stepPercent;
+                            sliderSpanRange.style.left = rangeValue + '%';
+                            document.getElementById(spanValue.id).style.left = rangeValue + '%';
+                            values = first;
+                            second = values;
+                        }
+
+                        document.getElementById(inputResultRange.id).value = values;
                         document.getElementById(spanValue.id).innerHTML = values;
                     };
 
@@ -260,8 +296,18 @@
                         let result = (((stepBottom / stepPercent) * options.stepSize).toFixed());
                         result = +result;
                         let values = result + options.min;
+                        second = values;
 
-                        document.getElementById(pResultRange.id).innerHTML = values;
+                        if (second <= first) {
+                            let stepPercent = 100 / (options.max - options.min);
+                            let rangeValue = (first - options.min) * stepPercent;
+                            sliderSpanRange.style.bottom = rangeValue + '%';
+                            document.getElementById(spanValue.id).style.bottom = rangeValue + '%';
+                            values = first;
+                            second = values;
+                        }
+
+                        document.getElementById(inputResultRange.id).value = values;
                         document.getElementById(spanValue.id).innerHTML = values;
                     };
                 }
@@ -279,18 +325,64 @@
             };
         }
 
-        let input = document.getElementById(pResult.id);
-
+        let input = document.getElementById(inputResult.id);
+        let inputRange = document.getElementById(inputResultRange.id);
 
         // Изменение значения через input
         input.oninput = function () {
             if (input.value >= options.min && input.value <= options.max) {
                 let stepPercent = 100 / (options.max - options.min);
                 let inputValue = (input.value - options.min) * stepPercent;
-                sliderSpan.style.left = inputValue + '%';
-            }
+                first = input.value;
 
+                if (options.position === 'horizontal') {
+                    sliderSpan.style.left = inputValue + '%';
+                    if (first >= second) {
+                        let inputValue = (second - options.min) * stepPercent;
+                        sliderSpan.style.left = inputValue + '%';
+                        document.getElementById(inputResult.id).value = second;
+                        document.getElementById(spanValue.id).style.left = inputValue + '%';
+                    }
+                } else if (options.position === 'vertical') {
+                    sliderSpan.style.bottom = inputValue + '%';
+                    if (first >= second) {
+                        let inputValue = (second - options.min) * stepPercent;
+                        sliderSpan.style.bottom = inputValue + '%';
+                        document.getElementById(inputResult.id).value = second;
+                        document.getElementById(spanValue.id).style.left = inputValue + '%';
+                    }
+                }
+            }
         }
+
+
+        inputRange.oninput = function () {
+            if (inputRange.value >= options.min && inputRange.value <= options.max) {
+                let stepPercent = 100 / (options.max - options.min);
+                let inputValue = (inputRange.value - options.min) * stepPercent;
+                second = inputRange.value;
+
+                if (options.position === 'horizontal') {
+                    sliderSpanRange.style.left = inputValue + '%';
+                    if (second <= first) {
+                        inputValue = (first - options.min) * stepPercent;
+                        sliderSpanRange.style.left = inputValue + '%';
+                        document.getElementById(inputResultRange.id).value = first;
+                        document.getElementById(spanValue.id).style.bottom = inputValue + '%';
+                    }
+                } else if (options.position === 'vertical') {
+                    sliderSpanRange.style.bottom = inputValue + '%';
+                    if (second <= first) {
+                        inputValue = (first - options.min) * stepPercent;
+                        sliderSpanRange.style.bottom = inputValue + '%';
+                        document.getElementById(inputResultRange.id).value = first;
+                        document.getElementById(spanValue.id).style.bottom = inputValue + '%';
+                    }
+                }
+            }
+        }
+
+
 
         function getCoords(elem) {
             let box = elem.getBoundingClientRect();

@@ -41,7 +41,7 @@
     background-color: rgb(246, 246, 246);
     border: 1px solid #c5c5c5;
     bottom: 0%;
-    margin-bottom: -10px;
+    margin-bottom: -15px;
     border-radius: 3px;
     margin-left: -3px;
 }
@@ -49,6 +49,11 @@
 .ui-slider-vert:hover {
     background-color: rgb(237, 237, 237);
 }
+
+.ui-slider-vert.range {
+    bottom: 100%;
+}
+
 
 .span-value-hor {
     margin-top: -32px;
