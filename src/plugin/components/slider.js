@@ -7,6 +7,8 @@
             range: false,
             stepSize: 1,
             valueFromAbove: false,
+            scale: false,
+            mark: 0,
         }
 
         if (arguments[0] && typeof arguments[0] === "object") {
@@ -26,9 +28,10 @@
         let stepFirst = 0;
         let stepSecond = 100;
 
-            //Разметка слайдера
+        //Разметка слайдера
         let containerSlider = document.createElement('div');
         let divResult = document.createElement('div');
+        let scaleOfValues = document.createElement('div');
         let inputResult = document.createElement('input');
         let inputResultRange = document.createElement('input');
         let divSlider = document.createElement('div');
@@ -36,7 +39,7 @@
         let spanRange = document.createElement('span');
         let spanValue = document.createElement('span');
 
-        if (document.getElementById('containerSliderHor-' + nextId)) {
+        if (document.getElementById('containerSlider-' + nextId)) {
             nextId++;
         }
 
@@ -45,32 +48,66 @@
             console.log('Error: Enter ID')
         }
 
-        document.getElementById(options.id).appendChild(containerSlider);
-        containerSlider.id = 'containerSliderHor-' + nextId;
-        document.getElementById(containerSlider.id).appendChild(divResult);
+        document.getElementById(options.id).append(containerSlider);
+        containerSlider.id = 'containerSlider-' + nextId;
+        document.getElementById(containerSlider.id).append(divResult);
         divResult.id = 'sliderResult-' + nextId;
 
         if (options.position === 'horizontal') {
-            document.getElementById(divResult.id).appendChild(inputResult);
+            document.getElementById(divResult.id).append(inputResult);
             inputResult.id = 'result-' + nextId;
             inputResult.className = 'result';
             inputResult.value = options.min;
 
-            document.getElementById(containerSlider.id).appendChild(divSlider);
+            document.getElementById(containerSlider.id).append(divSlider);
             divSlider.id = 'sliderHor-' + nextId;
             divSlider.className = 'slider-hor';
 
-            document.getElementById(divSlider.id).appendChild(span);
+            document.getElementById(divSlider.id).append(span);
             span.id = 'sliderSpan-' + nextId;
             span.className = 'ui-slider-hor';
 
+            //Шкала значений под слайдером
+            if (options.scale === true) {
+                document.getElementById(containerSlider.id).append(scaleOfValues);
+                scaleOfValues.id = 'scaleOfValues-' + nextId;
+                scaleOfValues.className = 'scale-hor';
+
+                for (let i = 0; i < 51; i++) {
+                    let mark = document.createElement('div');
+                    document.getElementById(scaleOfValues.id).appendChild(mark);
+                    mark.id = 'mark-' + nextId + '-' + i;
+                    mark.style.paddingLeft = 1 + 'px';
+                    if (i != 0) {
+                        mark.style.marginLeft = 1.75 + '%';
+                    }
+                    if (i % 5 === 0) {
+                        mark.className = 'mark-main';
+                    } else {
+                        mark.className = 'mark-second';
+                    }
+
+                    mark.onclick = function (event) {
+                        let position = i * 2;
+                        if (options.range === false) {
+
+                            document.getElementById(span.id).style.left = position + '%';
+                            document.getElementById(sliderSpan.id).style.left = position + '%';
+                            slider.style.background = 'linear-gradient(90deg , #6c00fa ' + position + '%, white ' + position + '%)';
+
+                            document.getElementById(inputResult.id).value = ((options.max - options.min) / 100) * position;
+                        }
+                    }
+                }
+            }
+
             if (options.range === true) {
-                document.getElementById(divResult.id).appendChild(inputResultRange);
+                document.getElementById(divResult.id).append(inputResultRange);
                 inputResultRange.id = 'resultRange-' + nextId;
                 inputResultRange.className = 'result-range';
                 inputResultRange.value = options.max;
 
-                document.getElementById(divSlider.id).appendChild(spanRange);
+                document.getElementById(divSlider.id).append(spanRange);
                 spanRange.id = 'sliderSpanRange-' + nextId;
                 spanRange.className = 'ui-slider-hor range';
             }
@@ -82,26 +119,61 @@
             }
 
         } else if (options.position === 'vertical') {
-            document.getElementById(divResult.id).appendChild(inputResult);
+            document.getElementById(divResult.id).append(inputResult);
             inputResult.id = 'result-' + nextId;
             inputResult.className = 'result';
             inputResult.value = options.min;
 
-            document.getElementById(containerSlider.id).appendChild(divSlider);
+            document.getElementById(containerSlider.id).append(divSlider);
             divSlider.id = 'sliderVert-' + nextId;
             divSlider.className = 'slider-vert';
 
-            document.getElementById(divSlider.id).appendChild(span);
+            document.getElementById(divSlider.id).append(span);
             span.id = 'sliderSpan';
             span.className = 'ui-slider-vert';
 
+            //Шкала значений под слайдером
+            if (options.scale === true) {
+                document.getElementById(divSlider.id).append(scaleOfValues);
+                scaleOfValues.id = 'scaleOfValues-' + nextId;
+                scaleOfValues.className = 'scale-vert';
+
+                for (let i = 0; i < 51; i++) {
+                    let mark = document.createElement('div');
+                    document.getElementById(scaleOfValues.id).appendChild(mark);
+                    mark.id = 'mark-' + nextId + '-' + i;
+                    mark.style.paddingTop = 1 + 'px';
+                    /*if (i != 0) {
+                        mark.style.marginTop = 1.75 + '%';
+                    }*/
+                    if (i % 5 === 0) {
+                        mark.className = 'mark-main-vert';
+                    } else {
+                        mark.className = 'mark-second-vert';
+                    }
+
+                    /*mark.onclick = function (event) {
+                        let position = i * 2;
+                        console.log(position)
+                        if (options.range === false) {
+
+                            document.getElementById(span.id).style.bottom = position + '%';
+                            document.getElementById(sliderSpan.id).style.bottom = position + '%';
+                            slider.style.background = 'linear-gradient(0deg , #6c00fa ' + position + '%, white ' + position + '%)';
+
+                            document.getElementById(inputResult.id).value = ((options.max - options.min) / 100) * position;
+                        }
+                    }*/
+                }
+            }
+
             if (options.range === true) {
-                document.getElementById(divResult.id).appendChild(inputResultRange);
+                document.getElementById(divResult.id).append(inputResultRange);
                 inputResultRange.id = 'resultRange-' + nextId;
                 inputResultRange.className = 'result-range';
                 inputResultRange.value = options.max;
 
-                document.getElementById(divSlider.id).appendChild(spanRange);
+                document.getElementById(divSlider.id).append(spanRange);
                 spanRange.id = 'sliderSpanRange-' + nextId;
                 spanRange.className = 'ui-slider-vert range';
             }
@@ -119,6 +191,14 @@
         let sliderSpan = document.getElementById(span.id);
         let sliderSpanRange = document.getElementById(spanRange.id);
         let slider = document.getElementById(divSlider.id);
+
+        if (options.range === true) {
+            if (options.position === 'horizontal') {
+                slider.style.background = 'linear-gradient(90deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
+            } else if (options.position === 'vertical') {
+                slider.style.background = 'linear-gradient(0deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
+            }
+        }
 
         sliderSpan.onmousedown = function(event) {
             let sliderCoords = getCoords(slider);
@@ -353,8 +433,11 @@
                 let stepPercent = 100 / (options.max - options.min);
                 let inputValue = (input.value - options.min) * stepPercent;
                 first = input.value;
+                stepFirst = inputValue;
 
                 if (options.position === 'horizontal') {
+                    slider.style.background = 'linear-gradient(90deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
+
                     sliderSpan.style.left = inputValue + '%';
                     if (first >= second) {
                         let inputValue = (second - options.min) * stepPercent;
@@ -364,6 +447,8 @@
                         first = second;
                     }
                 } else if (options.position === 'vertical') {
+                    slider.style.background = 'linear-gradient(0deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
+
                     sliderSpan.style.bottom = inputValue + '%';
                     if (first >= second) {
                         let inputValue = (second - options.min) * stepPercent;
@@ -382,8 +467,11 @@
                     let stepPercent = 100 / (options.max - options.min);
                     let inputValue = (inputRange.value - options.min) * stepPercent;
                     second = inputRange.value;
+                    stepSecond = inputValue;
 
                     if (options.position === 'horizontal') {
+                        slider.style.background = 'linear-gradient(90deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
+
                         sliderSpanRange.style.left = inputValue + '%';
                         if (second <= first) {
                             inputValue = (first - options.min) * stepPercent;
@@ -393,6 +481,8 @@
                             second = first;
                         }
                     } else if (options.position === 'vertical') {
+                        slider.style.background = 'linear-gradient(0deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
+
                         sliderSpanRange.style.bottom = inputValue + '%';
                         if (second <= first) {
                             inputValue = (first - options.min) * stepPercent;

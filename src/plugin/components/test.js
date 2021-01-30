@@ -1,11 +1,12 @@
 new mySlider({
-    min: 20,
+    min: 0,
     max: 200,
     position: 'horizontal',
     id: 'raz',
     valueFromAbove: true,
     stepSize: 1,
-    range: true,
+    range: false,
+    scale: true,
 })
 
 new mySlider({
@@ -15,7 +16,8 @@ new mySlider({
     stepSize: 10,
     id: 'dva',
     valueFromAbove: true,
-    range: true,
+    range: false,
+    scale: true,
 })
 
 
