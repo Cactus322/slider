@@ -95,7 +95,7 @@
                             document.getElementById(sliderSpan.id).style.left = position + '%';
                             slider.style.background = 'linear-gradient(90deg , #6c00fa ' + position + '%, white ' + position + '%)';
 
-                            document.getElementById(inputResult.id).value = ((options.max - options.min) / 100) * position;
+                            document.getElementById(inputResult.id).value = (((options.max - options.min) / 100) * position) + options.min;
                         }
                     }
                 }
@@ -152,18 +152,41 @@
                         mark.className = 'mark-second-vert';
                     }
 
-                    /*mark.onclick = function (event) {
-                        let position = i * 2;
-                        console.log(position)
+                    mark.onclick = function (event) {
+                        let position = 100 - i * 2;
                         if (options.range === false) {
 
                             document.getElementById(span.id).style.bottom = position + '%';
                             document.getElementById(sliderSpan.id).style.bottom = position + '%';
                             slider.style.background = 'linear-gradient(0deg , #6c00fa ' + position + '%, white ' + position + '%)';
 
-                            document.getElementById(inputResult.id).value = ((options.max - options.min) / 100) * position;
+                            if (options.stepSize === 1) {
+                                document.getElementById(span.id).style.bottom = position + '%';
+                                document.getElementById(sliderSpan.id).style.bottom = position + '%';
+                                slider.style.background = 'linear-gradient(0deg , #6c00fa ' + position + '%, white ' + position + '%)';
+
+                                document.getElementById(inputResult.id).value = (((options.max - options.min) / 100) * position) + options.min;
+                            } else {
+                                //СДЕЛАТЬ СДВИГ ПОЛЗУНКА КРАТНЫМ stepSize
+
+                                document.getElementById(inputResult.id).value = (((options.max - options.min) / 100) * position) + options.min;
+                                // сделаем число кратным stepSize
+                                if ((document.getElementById(inputResult.id).value = (((options.max - options.min) / 100) * position) + options.min) % options.stepSize !== 0) {
+                                    let stepSizeValue = document.getElementById(inputResult.id).value;
+                                    let remainderValue = stepSizeValue % options.stepSize;
+
+                                    //увеличение вверх и вниз
+                                    if (remainderValue > (options.stepSize / 2)) {
+                                        remainderValue = options.stepSize - remainderValue;
+                                        document.getElementById(inputResult.id).value = Number(stepSizeValue) + remainderValue
+                                    } else {
+                                        document.getElementById(inputResult.id).value = Number(stepSizeValue) - remainderValue
+                                    }
+                                }
+                            }
+
                         }
-                    }*/
+                    }
                 }
             }
 
