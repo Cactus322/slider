@@ -90,12 +90,36 @@
                     mark.onclick = function (event) {
                         let position = i * 2;
                         if (options.range === false) {
+                            if (options.stepSize === 1) {
+                                document.getElementById(span.id).style.left = position + '%';
+                                document.getElementById(sliderSpan.id).style.left = position + '%';
+                                slider.style.background = 'linear-gradient(90deg , #6c00fa ' + position + '%, white ' + position + '%)';
 
-                            document.getElementById(span.id).style.left = position + '%';
-                            document.getElementById(sliderSpan.id).style.left = position + '%';
-                            slider.style.background = 'linear-gradient(90deg , #6c00fa ' + position + '%, white ' + position + '%)';
+                                document.getElementById(inputResult.id).value = (((options.max - options.min) / 100) * position) + options.min;
+                            } else {
+                                let stepCount = (options.max - options.min) / options.stepSize;
+                                let stepPercent = 100 / stepCount;
+                                let stepLeft = Math.round(position / stepPercent) * stepPercent;
+                                document.getElementById(span.id).style.left = stepLeft + '%';
+                                document.getElementById(sliderSpan.id).style.left = stepLeft + '%';
+                                slider.style.background = 'linear-gradient(90deg , #6c00fa ' + stepLeft + '%, white ' + stepLeft + '%)';
 
-                            document.getElementById(inputResult.id).value = (((options.max - options.min) / 100) * position) + options.min;
+                                document.getElementById(inputResult.id).value = (((options.max - options.min) / 100) * position) + options.min;
+                                // сделаем число кратным stepSize
+                                if ((document.getElementById(inputResult.id).value = (((options.max - options.min) / 100) * position) + options.min) % options.stepSize !== 0) {
+                                    let stepSizeValue = document.getElementById(inputResult.id).value;
+                                    let remainderValue = stepSizeValue % options.stepSize;
+
+                                    //увеличение вверх и вниз
+                                    if (remainderValue > (options.stepSize / 2)) {
+                                        remainderValue = options.stepSize - remainderValue;
+                                        document.getElementById(inputResult.id).value = Number(stepSizeValue) + remainderValue
+                                    } else {
+                                        document.getElementById(inputResult.id).value = Number(stepSizeValue) - remainderValue
+                                    }
+                                }
+                            }
+
                         }
                     }
                 }
@@ -143,9 +167,6 @@
                     document.getElementById(scaleOfValues.id).appendChild(mark);
                     mark.id = 'mark-' + nextId + '-' + i;
                     mark.style.paddingTop = 1 + 'px';
-                    /*if (i != 0) {
-                        mark.style.marginTop = 1.75 + '%';
-                    }*/
                     if (i % 5 === 0) {
                         mark.className = 'mark-main-vert';
                     } else {
@@ -156,10 +177,6 @@
                         let position = 100 - i * 2;
                         if (options.range === false) {
 
-                            document.getElementById(span.id).style.bottom = position + '%';
-                            document.getElementById(sliderSpan.id).style.bottom = position + '%';
-                            slider.style.background = 'linear-gradient(0deg , #6c00fa ' + position + '%, white ' + position + '%)';
-
                             if (options.stepSize === 1) {
                                 document.getElementById(span.id).style.bottom = position + '%';
                                 document.getElementById(sliderSpan.id).style.bottom = position + '%';
@@ -167,7 +184,12 @@
 
                                 document.getElementById(inputResult.id).value = (((options.max - options.min) / 100) * position) + options.min;
                             } else {
-                                //СДЕЛАТЬ СДВИГ ПОЛЗУНКА КРАТНЫМ stepSize
+                                let stepCount = (options.max - options.min) / options.stepSize;
+                                let stepPercent = 100 / stepCount;
+                                let stepBottom = Math.round(position / stepPercent) * stepPercent;
+                                document.getElementById(span.id).style.bottom = stepBottom + '%';
+                                document.getElementById(sliderSpan.id).style.bottom = stepBottom + '%';
+                                slider.style.background = 'linear-gradient(0deg , #6c00fa ' + stepBottom + '%, white ' + stepBottom + '%)';
 
                                 document.getElementById(inputResult.id).value = (((options.max - options.min) / 100) * position) + options.min;
                                 // сделаем число кратным stepSize
