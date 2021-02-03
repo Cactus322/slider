@@ -5,7 +5,7 @@ new mySlider({
     id: 'raz',
     valueFromAbove: true,
     stepSize: 1,
-    range: false,
+    range: true,
     scale: true,
 })
 

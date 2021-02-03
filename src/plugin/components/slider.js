@@ -255,7 +255,10 @@
 
                 //Начнем движение ползунка
                 document.onmousemove = function(event) {
-                    let left = ((event.pageX - shift - sliderCoords.left) / sliderCoords.width) * 100;
+                    //ФИКС ПОЛЗУНКА!!!!
+
+                    
+                    let left = ((event.pageX - shift - sliderCoords.left + 10) / sliderCoords.width) * 100;
                     if (left < 0) left = 0;
                     if (left > 100) left = 100;
 
@@ -473,40 +476,76 @@
         let inputRange = document.getElementById(inputResultRange.id);
 
         // Изменение значения через input
-        input.oninput = function () {
-            if (input.value >= options.min && input.value <= options.max) {
-                let stepPercent = 100 / (options.max - options.min);
-                let inputValue = (input.value - options.min) * stepPercent;
-                first = input.value;
-                stepFirst = inputValue;
+        if (options.range === true) {
+            input.oninput = function () {
+                if (input.value >= options.min && input.value <= options.max) {
+                    let stepPercent = 100 / (options.max - options.min);
+                    let inputValue = (input.value - options.min) * stepPercent;
+                    first = input.value;
+                    stepFirst = inputValue;
 
-                if (options.position === 'horizontal') {
-                    slider.style.background = 'linear-gradient(90deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
-
-                    sliderSpan.style.left = inputValue + '%';
-                    if (first >= second) {
-                        let inputValue = (second - options.min) * stepPercent;
-                        sliderSpan.style.left = inputValue + '%';
-                        document.getElementById(inputResult.id).value = second;
-                        document.getElementById(spanValue.id).style.left = inputValue + '%';
-                        first = second;
+                    //функция невозможности перехода левого слайдера за правый слайдер
+                    function rangeValueCheck() {
+                        if (options.position === 'horizontal') {
+                            if (first >= second) {
+                                let inputValue = (second - options.min) * stepPercent;
+                                sliderSpan.style.left = inputValue + '%';
+                                document.getElementById(inputResult.id).value = second;
+                                document.getElementById(spanValue.id).style.left = inputValue + '%';
+                                first = second;
+                            }
+                        } else if (options.position === 'vertical') {
+                            if (first >= second) {
+                                let inputValue = (second - options.min) * stepPercent;
+                                sliderSpan.style.bottom = inputValue + '%';
+                                document.getElementById(inputResult.id).value = second;
+                                document.getElementById(spanValue.id).style.bottom = inputValue + '%';
+                                first = second;
+                            }
+                        }
                     }
-                } else if (options.position === 'vertical') {
-                    slider.style.background = 'linear-gradient(0deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
 
-                    sliderSpan.style.bottom = inputValue + '%';
-                    if (first >= second) {
-                        let inputValue = (second - options.min) * stepPercent;
+                    if (options.position === 'horizontal') {
+                        slider.style.background = 'linear-gradient(90deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
+                        sliderSpan.style.left = inputValue + '%';
+
+                        setTimeout(rangeValueCheck, 500);
+
+                    } else if (options.position === 'vertical') {
+                        slider.style.background = 'linear-gradient(0deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
                         sliderSpan.style.bottom = inputValue + '%';
-                        document.getElementById(inputResult.id).value = second;
-                        document.getElementById(spanValue.id).style.left = inputValue + '%';
-                        first = second;
+
+                        setTimeout(rangeValueCheck, 500);
+
+                    }
+                } else if (input.value < options.min) {
+                    setTimeout(() => input.value = options.min, 500);
+                    stepFirst = options.min;
+                    first = input.value;
+
+                    if (options.position === 'horizontal') {
+                        slider.style.background = 'linear-gradient(90deg, #6c00fa ' + stepFirst + '%, white ' + stepFirst + '%)';
+                        sliderSpan.style.left = 0 + '%';
+                    } else if (options.position === 'vertical') {
+                        slider.style.background = 'linear-gradient(0deg, #6c00fa ' + stepFirst + '%, white ' + stepFirst + '%)';
+                        sliderSpan.style.bottom = 0 + '%';
+                    }
+                } else if (input.value > options.max) {
+                    setTimeout(() => input.value = inputRange.value, 500);
+                    let stepPercent = 100 / (options.max - options.min);
+                    let inputValue = (inputRange.value) * stepPercent;
+                    second = inputRange.value;
+                    stepSecond = inputValue;
+
+                    if (options.position === 'horizontal') {
+                        slider.style.background = 'linear-gradient(90deg, #6c00fa ' + stepFirst + '%, white ' + stepFirst + '%)';
+                        sliderSpan.style.left = inputRange.value + '%';
+                    } else if (options.position === 'vertical') {
+                        slider.style.background = 'linear-gradient(0deg, #6c00fa ' + stepFirst + '%, white ' + stepFirst + '%)';
+                        sliderSpan.style.bottom = inputRange.value + '%';
                     }
                 }
             }
-        }
-
-        if (options.range === true) {
             inputRange.oninput = function () {
                 if (inputRange.value >= options.min && inputRange.value <= options.max) {
                     let stepPercent = 100 / (options.max - options.min);
@@ -514,28 +553,106 @@
                     second = inputRange.value;
                     stepSecond = inputValue;
 
+                    //функция невозможности перехода правого слайдера за левый слайдер
+                    function rangeValueCheck() {
+                        if (options.position === 'horizontal') {
+                            if (second <= first) {
+                                inputValue = (first - options.min) * stepPercent;
+                                sliderSpanRange.style.left = inputValue + '%';
+                                document.getElementById(inputResultRange.id).value = first;
+                                document.getElementById(spanValue.id).style.left = inputValue + '%';
+                                second = first;
+                            }
+                        } else if (options.position === 'vertical') {
+                            if (second <= first) {
+                                inputValue = (first - options.min) * stepPercent;
+                                sliderSpanRange.style.bottom = inputValue + '%';
+                                document.getElementById(inputResultRange.id).value = first;
+                                document.getElementById(spanValue.id).style.bottom = inputValue + '%';
+                                second = first;
+                            }
+                        }
+                    }
+
                     if (options.position === 'horizontal') {
                         slider.style.background = 'linear-gradient(90deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
-
                         sliderSpanRange.style.left = inputValue + '%';
-                        if (second <= first) {
-                            inputValue = (first - options.min) * stepPercent;
-                            sliderSpanRange.style.left = inputValue + '%';
-                            document.getElementById(inputResultRange.id).value = first;
-                            document.getElementById(spanValue.id).style.bottom = inputValue + '%';
-                            second = first;
-                        }
+
+                        setTimeout(rangeValueCheck, 500);
+
+
                     } else if (options.position === 'vertical') {
                         slider.style.background = 'linear-gradient(0deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
-
                         sliderSpanRange.style.bottom = inputValue + '%';
-                        if (second <= first) {
-                            inputValue = (first - options.min) * stepPercent;
-                            sliderSpanRange.style.bottom = inputValue + '%';
-                            document.getElementById(inputResultRange.id).value = first;
-                            document.getElementById(spanValue.id).style.bottom = inputValue + '%';
-                            second = first;
-                        }
+
+                        setTimeout(rangeValueCheck, 500);
+                    }
+                } else if (inputRange.value < options.min) {
+                    setTimeout(() => inputRange.value = input.value, 500);
+                    let stepPercent = 100 / (options.max - options.min);
+                    let inputValue = (input.value) * stepPercent;
+                    second = input.value;
+                    stepSecond = inputValue;
+
+                    if (options.position === 'horizontal') {
+                        slider.style.background = 'linear-gradient(90deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
+                        sliderSpanRange.style.left = inputValue + '%';
+                    } else if (options.position === 'vertical') {
+                        slider.style.background = 'linear-gradient(0deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
+                        sliderSpanRange.style.bottom = inputValue + '%';
+                    }
+                } else if (inputRange.value > options.max) {
+                    setTimeout(() => inputRange.value = options.max, 500);
+                    stepSecond = options.max;
+                    second = options.max;
+
+                    if (options.position === 'horizontal') {
+                        slider.style.background = 'linear-gradient(90deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
+                        sliderSpanRange.style.left = 100 + '%';
+                    } else if (options.position === 'vertical') {
+                        slider.style.background = 'linear-gradient(0deg, white ' + stepFirst + '%, #6c00fa ' + stepFirst + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
+                        sliderSpanRange.style.bottom = 100 + '%';
+                    }
+                }
+            }
+        } else if (options.range === false) {
+            input.oninput = function () {
+                if (input.value >= options.min && input.value <= options.max) {
+                    let stepPercent = 100 / (options.max - options.min);
+                    let inputValue = (input.value - options.min) * stepPercent;
+                    stepFirst = inputValue;
+                    first = input.value;
+
+                    if (options.position === 'horizontal') {
+                        slider.style.background = 'linear-gradient(90deg, #6c00fa ' + stepFirst + '%, white ' + stepFirst + '%)';
+                        sliderSpan.style.left = inputValue + '%';
+                    } else if (options.position === 'vertical') {
+                        slider.style.background = 'linear-gradient(0deg, #6c00fa ' + stepFirst + '%, white ' + stepFirst + '%)';
+                        sliderSpan.style.bottom = inputValue + '%';
+                    }
+                } else if (input.value < options.min) {
+                    setTimeout(() => input.value = options.min, 500);
+                    stepFirst = options.min;
+                    first = input.value;
+
+                    if (options.position === 'horizontal') {
+                        slider.style.background = 'linear-gradient(90deg, #6c00fa ' + stepFirst + '%, white ' + stepFirst + '%)';
+                        sliderSpan.style.left = 0 + '%';
+                    } else if (options.position === 'vertical') {
+                        slider.style.background = 'linear-gradient(0deg, #6c00fa ' + stepFirst + '%, white ' + stepFirst + '%)';
+                        sliderSpan.style.bottom = 0 + '%';
+                    }
+                } else if (input.value > options.max) {
+                    setTimeout(() => input.value = options.max, 500);
+                    stepFirst = options.max;
+                    first = input.value;
+
+                    if (options.position === 'horizontal') {
+                        slider.style.background = 'linear-gradient(90deg, #6c00fa ' + stepFirst + '%, white ' + stepFirst + '%)';
+                        sliderSpan.style.left = 100 + '%';
+                    } else if (options.position === 'vertical') {
+                        slider.style.background = 'linear-gradient(0deg, #6c00fa ' + stepFirst + '%, white ' + stepFirst + '%)';
+                        sliderSpan.style.bottom = 100 + '%';
                     }
                 }
             }
