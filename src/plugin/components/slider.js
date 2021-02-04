@@ -255,9 +255,6 @@
 
                 //Начнем движение ползунка
                 document.onmousemove = function(event) {
-                    //ФИКС ПОЛЗУНКА!!!!
-
-                    
                     let left = ((event.pageX - shift - sliderCoords.left + 10) / sliderCoords.width) * 100;
                     if (left < 0) left = 0;
                     if (left > 100) left = 100;
