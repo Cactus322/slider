@@ -286,14 +286,16 @@
                     let values = result + options.min;
                     first = values;
 
+                    //Не дадим левому слайдеру зайти за правый
                     if (first >= second) {
-                        let stepPercent = 100 / (options.max - options.min);
                         let rangeValue = (second - options.min) * stepPercent;
                         sliderSpan.style.left = rangeValue + '%';
                         document.getElementById(spanValue.id).style.left = rangeValue + '%';
+                        slider.style.background = 'linear-gradient(0deg, white ' + rangeValue + '%, #6c00fa ' + rangeValue + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
                         values = second
                         first = values;
                     }
+
 
                     document.getElementById(inputResult.id).value = values;
                     document.getElementById(spanValue.id).innerHTML = values;
@@ -398,6 +400,7 @@
                         let values = result + options.min;
                         second = values;
 
+                        //Не дадим правому слайдеру зайти за левый
                         if (second <= first) {
                             let stepPercent = 100 / (options.max - options.min);
                             let rangeValue = (first - options.min) * stepPercent;
@@ -405,6 +408,11 @@
                             document.getElementById(spanValue.id).style.left = rangeValue + '%';
                             values = first;
                             second = values;
+                        }
+
+                        //Исправим баг с закрашиванием поля слайдера
+                        if (stepFirst > stepSecond) {
+                            stepFirst = (first - options.min) * stepPercent;
                         }
 
                         document.getElementById(inputResultRange.id).value = values;
