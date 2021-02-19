@@ -245,7 +245,7 @@
             }
         }
 
-        sliderSpan.onmousedown = function(event) {
+        sliderSpan.onmousedown = function (event) {
             let sliderCoords = getCoords(slider);
             let sliderSpanCoords = getCoords(sliderSpan);
 
@@ -254,7 +254,7 @@
                 let shift = event.pageX - sliderSpanCoords.left;
 
                 //Начнем движение ползунка
-                document.onmousemove = function(event) {
+                document.onmousemove = function (event) {
                     let left = ((event.pageX - shift - sliderCoords.left + 10) / sliderCoords.width) * 100;
                     if (left < 0) left = 0;
                     if (left > 100) left = 100;
@@ -287,18 +287,18 @@
                     first = values;
 
                     //Не дадим левому слайдеру зайти за правый
-                    if (first >= second) {
-                        let rangeValue = (second - options.min) * stepPercent;
+                    if (second - first <= 11) {
+                        let stepPercent = 100 / (options.max - options.min);
+                        let rangeValue = ((second - 11) - options.min) * stepPercent;
                         sliderSpan.style.left = rangeValue + '%';
                         document.getElementById(spanValue.id).style.left = rangeValue + '%';
-                        slider.style.background = 'linear-gradient(0deg, white ' + rangeValue + '%, #6c00fa ' + rangeValue + '%, #6c00fa ' + stepSecond + '%, white ' + stepSecond + '%)';
-                        values = second
+                        values = second - 11
                         first = values;
                     }
 
-
                     document.getElementById(inputResult.id).value = values;
                     document.getElementById(spanValue.id).innerHTML = values;
+
                 };
 
             } else if (options.position === 'vertical') {
@@ -401,13 +401,26 @@
                         second = values;
 
                         //Не дадим правому слайдеру зайти за левый
-                        if (second <= first) {
+                        if (second - first <= 11) {
                             let stepPercent = 100 / (options.max - options.min);
-                            let rangeValue = (first - options.min) * stepPercent;
+                            let rangeValue = ((first + 11) - options.min) * stepPercent;
                             sliderSpanRange.style.left = rangeValue + '%';
                             document.getElementById(spanValue.id).style.left = rangeValue + '%';
-                            values = first;
+                            values = first + 11;
                             second = values;
+                        }
+
+                        if (second - first <= 11) {
+                            let stepPercent = 100 / (options.max - options.min);
+                            let rangeValue = ((second - 11) - options.min) * stepPercent;
+                            sliderSpan.style.left = rangeValue + '%';
+                            document.getElementById(spanValue.id).style.left = rangeValue + '%';
+                            values = second - 11
+                            first = values;
+                            
+                            if (stepSecond < stepFirst) {
+                                stepSecond = stepFirst;
+                            }
                         }
 
                         //Исправим баг с закрашиванием поля слайдера
@@ -457,6 +470,11 @@
                             document.getElementById(spanValue.id).style.bottom = rangeValue + '%';
                             values = first;
                             second = values;
+                        }
+
+                        //Исправим баг с закрашиванием поля слайдера
+                        if (stepFirst > stepSecond) {
+                            stepFirst = (first - options.min) * stepPercent;
                         }
 
                         document.getElementById(inputResultRange.id).value = values;
