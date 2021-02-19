@@ -337,12 +337,12 @@
                     let values = result + options.min;
                     first = values;
 
-                    if (first >= second) {
+                    if (second - first <= 10) {
                         let stepPercent = 100 / (options.max - options.min);
-                        let rangeValue = (second - options.min) * stepPercent;
+                        let rangeValue = (second - 10 - options.min) * stepPercent;
                         sliderSpan.style.bottom = rangeValue + '%';
                         document.getElementById(spanValue.id).style.bottom = rangeValue + '%';
-                        values = second
+                        values = second - 10
                         first = values;
                     }
 
@@ -408,20 +408,12 @@
                             document.getElementById(spanValue.id).style.left = rangeValue + '%';
                             values = first + 11;
                             second = values;
-                        }
 
-                        if (second - first <= 11) {
-                            let stepPercent = 100 / (options.max - options.min);
-                            let rangeValue = ((second - 11) - options.min) * stepPercent;
-                            sliderSpan.style.left = rangeValue + '%';
-                            document.getElementById(spanValue.id).style.left = rangeValue + '%';
-                            values = second - 11
-                            first = values;
-                            
                             if (stepSecond < stepFirst) {
                                 stepSecond = stepFirst;
                             }
                         }
+
 
                         //Исправим баг с закрашиванием поля слайдера
                         if (stepFirst > stepSecond) {
@@ -463,14 +455,19 @@
                         let values = result + options.min;
                         second = values;
 
-                        if (second <= first) {
+                        if (second - first <= 10) {
                             let stepPercent = 100 / (options.max - options.min);
-                            let rangeValue = (first - options.min) * stepPercent;
+                            let rangeValue = ((first + 10) - options.min) * stepPercent;
                             sliderSpanRange.style.bottom = rangeValue + '%';
                             document.getElementById(spanValue.id).style.bottom = rangeValue + '%';
-                            values = first;
+                            values = first + 10;
                             second = values;
+
+                            if (stepSecond < stepFirst) {
+                                stepSecond = stepFirst;
+                            }
                         }
+
 
                         //Исправим баг с закрашиванием поля слайдера
                         if (stepFirst > stepSecond) {

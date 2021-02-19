@@ -16,7 +16,7 @@ new mySlider({
     stepSize: 10,
     id: 'dva',
     valueFromAbove: true,
-    range: false,
+    range: true,
     scale: true,
 })
 
